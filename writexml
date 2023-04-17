@@ -1,0 +1,63 @@
+package Package2;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+
+public class WriteXml {
+    private String filePath;
+    private ArrayList<ArrayList<Double>> data;
+    private ArrayList<ArrayList<Double>> calculations;
+
+    public WriteXml(String filePath, ArrayList<ArrayList<Double>> data, ArrayList<ArrayList<Double>> calculations) {
+        this.filePath = filePath;
+        this.data = data;
+        this.calculations = calculations;
+    }
+
+    public void writeData() throws IOException {
+        File file = new File(filePath);
+        FileWriter writer = new FileWriter(file);
+
+        writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+        writer.write("<data>\n");
+
+        for (int i = 0; i < data.size(); i++) {
+            writer.write("  <row>\n");
+            ArrayList<Double> rowData = data.get(i);
+            ArrayList<Double> calcData = calculations.get(i);
+
+            // Write the data values
+            for (int j = 0; j < rowData.size(); j++) {
+                String colName = getColumnHeader(j);
+                Double value = rowData.get(j);
+                writer.write("    <" + colName + ">" + value + "</" + colName + ">\n");
+            }
+
+            // Write the calculation values
+            writer.write("    <total>" + calcData.get(0) + "</total>\n");
+            writer.write("    <average>" + calcData.get(1) + "</average>\n");
+            writer.write("    <maximum>" + calcData.get(2) + "</maximum>\n");
+            writer.write("    <minimum>" + calcData.get(3) + "</minimum>\n");
+
+            writer.write("  </row>\n");
+        }
+
+        writer.write("</data>");
+        writer.close();
+    }
+
+    private String getColumnHeader(int index) {
+        switch (index) {
+            case 0:
+                return "A";
+            case 1:
+                return "B";
+            case 2:
+                return "C";
+            default:
+                return "";
+        }
+    }
+}

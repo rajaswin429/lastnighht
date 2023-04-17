@@ -1,0 +1,47 @@
+package Package2;
+
+import java.util.ArrayList;
+
+public class Calculate {
+    private ArrayList<ArrayList<Double>> data;
+    private ArrayList<ArrayList<Double>> results;
+
+    public Calculate(ArrayList<ArrayList<Double>> data) {
+        this.data = data;
+        this.results = new ArrayList<ArrayList<Double>>();
+    }
+
+    public ArrayList<ArrayList<Double>> getResults() {
+        return results;
+    }
+
+    public void calculateResults() {
+        for (ArrayList<Double> row : data) {
+            Double total = 0.0;
+            Double average = 0.0;
+            Double max = 0.0;
+            Double min = Double.MAX_VALUE;
+
+            for (Double value : row) {
+                total += value;
+                if (value > max) {
+                    max = value;
+                }
+                if (value < min) {
+                    min = value;
+                }
+            }
+
+            average = total / row.size();
+
+            ArrayList<Double> rowData = new ArrayList<Double>();
+            rowData.add(total);
+            rowData.add(average);
+            rowData.add(max);
+            rowData.add(min); // Swap the order of min and total here
+ // Swap the order of min and total here
+
+            results.add(rowData);
+        }
+    }
+}
